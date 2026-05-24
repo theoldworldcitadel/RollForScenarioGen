@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Old World Scenarios • Warhammer: The Old World</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3c2f1e">
+    <link rel="icon" href="icon-192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=IM+Fell+English+SC&display=swap');
+        
+        body {
+            margin: 0; padding: 0;
+            background: #0f0a05 url('https://images.unsplash.com/photo-1600585154340-be6161a56a9c?auto=format&fit=crop&q=80') center/cover fixed;
+            color: #e8d9b0;
+            font-family: 'IM Fell English SC', serif;
+            line-height: 1.7;
+        }
+        header {
+            background: linear-gradient(#3c2f1e, #2a2116);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 8px solid #b38b2d;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.9);
+        }
+        h1 { font-family: 'UnifrakturCook', cursive; font-size: 3.4em; color: #ffd700; text-shadow: 5px 5px 10px #000; margin: 0; }
+        .container { max-width: 1300px; margin: 30px auto; padding: 0 20px; }
+        
+        button {
+            background: #8b5a2b; color: #ffd700; border: 3px solid #b38b2d;
+            padding: 16px 36px; font-size: 1.2em; cursor: pointer; border-radius: 8px; margin: 12px;
+            transition: all 0.3s;
+        }
+        button:hover { background: #b38b2d; transform: scale(1.1); box-shadow: 0 0 20px #ffd700; }
+        .random-btn { font-size: 1.7em; padding: 25px 70px; background: #9c2a2a; }
+
+        .scenario-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 25px; }
+        .scenario-card {
+            background: rgba(60,47,30,0.97); border: 4px solid #b38b2d; padding: 22px;
+            border-radius: 14px; cursor: pointer; transition: all 0.4s;
+        }
+        .scenario-card:hover { transform: translateY(-12px); box-shadow: 0 20px 35px rgba(179,139,45,0.7); }
+
+        #scenario-detail { display: none; margin-top: 50px; background: rgba(44,34,22,0.98); padding: 45px; border: 6px solid #b38b2d; border-radius: 16px; }
+        .map-container { text-align: center; margin: 30px 0; background: #1a140f; padding: 20px; border: 4px solid #8b5a2b; }
+        .map-container img { max-width: 100%; border: 5px solid #ffd700; border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,0.85); }
+        .details h3 { color: #ffd700; border-bottom: 3px solid #b38b2d; padding-bottom: 10px; margin-top: 25px; }
+        .objective { background: rgba(179,139,45,0.25); padding: 14px; border-left: 5px solid #ffd700; margin: 15px 0; border-radius: 4px; }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+            background: #1a140f;
+            border-top: 4px solid #b38b2d;
+            font-size: 0.95em;
+            color: #c8b89a;
+        }
+        .patreon-link {
+            color: #ffd700;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Warhammer: The Old World</h1>
+        <p>Scenario Compendium • Official Rules + Random Objectives</p>
+    </header>
+
+    <div class="container">
+        <div style="text-align:center; margin-bottom:50px;">
+            <button class="random-btn" onclick="pickRandomScenario()">🎲 RANDOM SCENARIO</button>
+            <p id="random-result" style="margin-top:30px; font-size:1.6em; min-height:60px; color:#ffd700;"></p>
+        </div>
+
+        <h2 style="text-align:center; color:#ffd700; margin:40px 0 25px;">The 12 Scenarios</h2>
+        <div class="scenario-list" id="scenario-list"></div>
+
+        <div id="scenario-detail">
+            <button onclick="closeDetail()" style="float:right; background:#9c2a2a; padding:14px 28px; font-size:1.1em;">✕ Close</button>
+            <h2 id="detail-title" style="color:#ffd700; font-size:2.4em; margin-bottom:10px;"></h2>
+            <p id="detail-book" style="color:#b38b2d; font-size:1.2em;"></p>
+            
+            <div class="map-container">
+                <img id="detail-map" src="" alt="Deployment Map">
+            </div>
+            <div class="details" id="detail-content"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>For the full rules of each scenario, please refer to the Warhammer: The Old World Rulebook and Matched Play Guide.</strong></p>
+        <p>This app is unofficial and unendorsed by Games Workshop.</p>
+        <p>Created by the Warhammer Community Podcast &amp; Old World Tavern Magazine.</p>
+        <p>Support us and get more content on our <a href="https://www.patreon.com/c/TheOldWorldCommunity" target="_blank" class="patreon-link">Patreon</a>!</p>
+    </footer>
+
+    <script>
+        const secondaryPool = {
+            "Baggage Trains": "Baggage Trains",
+            "Special Features": "Special Features",
+            "Domination": "Domination",
+            "Strategic Locations 2": "Strategic Locations (2)",
+            "Strategic Locations 3": "Strategic Locations (3)",
+            "Strategic Locations 4": "Strategic Locations (4)"
+        };
+
+        const scenarios = [
+            { id: 1, book: "Core Rulebook", name: "Pitched Battle", type: "Standard Pitched Battle", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image.jpg", desc: `<h3>Deployment</h3><p>Long table edges. Units at least 12" from centre line (24" separation).</p><h3>Game Length</h3><p>Fixed (6 turns), Variable, or Break Point.</p><h3>Victory Points</h3><p>Standard VP + secondaries.</p>` },
+            { id: 2, book: "Core Rulebook", name: "Break Point", type: "Attrition", map: "break-point.jpg", desc: `<h3>Deployment</h3><p>Closer setup: 18" separation.</p><h3>Special Rules</h3><p>Break Point = 25% of starting Unit Strength.</p><h3>Victory</h3><p>First to break opponent wins.</p>` },
+            { id: 3, book: "Core Rulebook", name: "Flank Attack", type: "Asymmetrical", map: "flank-attack.jpg", desc: `<h3>Deployment</h3><p>Standard with flank zones.</p><h3>Special Rules</h3><p>Flanking units enter as reinforcements.</p>` },
+            { id: 4, book: "Matched Play Guide", name: "Upon the Field of Glory", type: "Classic Pitched", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image.jpg", desc: `<h3>Deployment</h3><p>Long edges, 24" separation. Alternating units.</p><h3>Game Length</h3><p>Fixed Turn Limit, Random Game Length, or Break Point.</p><h3>Special Rules</h3><p>None.</p>` },
+            { id: 5, book: "Matched Play Guide", name: "King of the Hill", type: "Objective Control", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image-1.jpg", desc: `<h3>Deployment</h3><p>Long edges, 20" apart.</p><h3>Central Hill</h3><p>Up to 12x18". Controlled by Core US 10+ unit within 9" of centre (not fleeing, not Stupid).</p><h3>Special Rules</h3><p>No Vanguard moves. 100 VP per turn to controller.</p>` },
+            { id: 6, book: "Matched Play Guide", name: "Drawn Battlelines", type: "Diagonal", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image-2.jpg", desc: `<h3>Deployment</h3><p>Diagonal zones.</p><h3>Special Rules</h3><p>Roll D6 before deployment. On a 1, both players put one Infantry/Cavalry unit + characters in reserve (arrive Turn 2+).</p>` },
+            { id: 7, book: "Matched Play Guide", name: "Close Quarters", type: "Tight Deployment", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image.png", desc: `<h3>Deployment</h3><p>12" from centre line.</p><h3>Special Rules</h3><p>Short edges are impassable terrain (no fleeing or reserves via short edges).</p>` },
+            { id: 8, book: "Matched Play Guide", name: "A Chance Encounter", type: "Quadrant", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image-1-1.jpg", desc: `<h3>Deployment</h3><p>Diagonally opposite quadrants (A1/A2 or B1/B2).</p><h3>Special Rules</h3><p>Central Special Feature mandatory.</p>` },
+            { id: 9, book: "Matched Play Guide", name: "Encirclement", type: "Modified Pitched", map: "encirclement.jpg", desc: `<h3>Deployment</h3><p>Cannot deploy within 12" of your left flank.</p>` },
+            { id: 10, book: "Core Rulebook", name: "Meeting Engagement", type: "Rapid Deployment", map: "meeting-engagement.jpg", desc: `<h3>Deployment</h3><p>Closer angled zones.</p>` },
+            { id: 11, book: "Core Rulebook", name: "Mountain Pass", type: "Narrative", map: "mountain-pass.jpg", desc: `<h3>Deployment</h3><p>Terrain restricted central pass.</p>` },
+            { id: 12, book: "Core Rulebook", name: "Command and Control (Lonely Tower)", type: "Objective", map: "command-and-control.jpg", desc: `<h3>Deployment</h3><p>Standard with central tower focus.</p>` }
+        ];
+
+        function getRandomSecondaries(scenName) {
+            let options = [];
+            if (scenName === "Upon the Field of Glory") options = ["Baggage Trains", "Special Features", "Domination", "Strategic Locations 2", "Strategic Locations 3", "Strategic Locations 4"];
+            else if (scenName === "King of the Hill") options = ["Baggage Trains", "Special Features"];
+            else if (scenName === "Drawn Battlelines") options = ["Strategic Locations 3", "Domination", "Baggage Trains"];
+            else if (scenName === "Close Quarters") options = ["Strategic Locations 2", "Domination"];
+            else if (scenName === "A Chance Encounter") options = ["Special Features", "Domination", "Baggage Trains"];
+            else if (scenName === "Encirclement") options = ["Strategic Locations 4", "Baggage Trains", "Special Features"];
+
+            const shuffled = options.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, 2);
+        }
+
+        function showDetail(scen) {
+            document.getElementById('detail-title').textContent = scen.name;
+            document.getElementById('detail-book').textContent = scen.book;
+            document.getElementById('detail-map').src = scen.map;
+
+            let content = scen.desc;
+
+            if (scen.book === "Matched Play Guide") {
+                const secondaries = getRandomSecondaries(scen.name);
+                content += `<h3>🎲 Generated Secondary Objectives</h3>`;
+                secondaries.forEach(obj => {
+                    content += `<div class="objective"><strong>${secondaryPool[obj] || obj}</strong></div>`;
+                });
+                content += `<p><small>These objectives are randomly selected per the official Matched Play Guide.</small></p>`;
+            }
+
+            document.getElementById('detail-content').innerHTML = content;
+            document.getElementById('scenario-detail').style.display = 'block';
+            document.getElementById('scenario-detail').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderScenarios() {
+            const list = document.getElementById('scenario-list');
+            list.innerHTML = '';
+            scenarios.forEach(scen => {
+                const card = document.createElement('div');
+                card.className = 'scenario-card';
+                card.innerHTML = `<strong>${scen.name}</strong><br><small>(${scen.book}) — ${scen.type}</small>`;
+                card.onclick = () => showDetail(scen);
+                list.appendChild(card);
+            });
+        }
+
+        function closeDetail() { document.getElementById('scenario-detail').style.display = 'none'; }
+
+        function pickRandomScenario() {
+            const random = scenarios[Math.floor(Math.random() * scenarios.length)];
+            document.getElementById('random-result').innerHTML = `🎲 You have drawn: <strong>${random.name}</strong>`;
+            showDetail(random);
+        }
+
+        renderScenarios();
+    </script>
+</body>
+</html>
