@@ -100,7 +100,11 @@
                 id: 1, book: "Core Rulebook", name: "Pitched Battle",
                 type: "Standard Pitched Battle",
                 map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image.jpg",
-                desc: `<h3>Deployment</h3><p>Long table edges. Units at least 12" from centre line (24" separation).</p><h3>Game Length</h3><p>Fixed (6 turns), Variable, or Break Point.</p><h3>Victory Points</h3><p>Standard VP + secondaries.</p>`
+                desc: `<h3>Deployment</h3><p>Long table edges. Units at least 12" from centre line (24" separation).</p>
+                       <h3>Game Length</h3>
+                       <p>Before the game begins, players can choose to play a 'fixed' length game or a 'random' length game:</p>
+                       <p><strong>Fixed Game Length:</strong> The battle will last for six rounds, until one side concedes, or until the time limit agreed by the players is reached.</p>
+                       <p><strong>Random Game Length:</strong> The battle will last a random number of rounds or until one side concedes. Starting at the end of the fifth round, roll a D6 at the end of each round. Add the round number to the dice roll. If the total is 10 or more, the battle ends immediately. If the total is less than 10 then the battle continues for at least one more round.</p>`
             },
             {
                 id: 2, book: "Core Rulebook", name: "Break Point",
@@ -112,14 +116,7 @@
                 id: 3, book: "Core Rulebook", name: "Flank Attack",
                 type: "Asymmetrical",
                 map: "flank-attack.jpg",
-                desc: `<h3>Deployment</h3>
-                    <p>Once the battlefield has been set up, the winner of a roll-off chooses which player will deploy the first unit. The winner of this roll-off must also choose their deployment zone (A or B), as shown on the map.</p>
-                    <p>Prior to deployment, both players secretly divide their armies into two forces – the main force and the flanking force:</p>
-                    <ul>
-                        <li>A flanking force must contain at least one non-character unit and can be worth up to 33% of the total points value of the army.</li>
-                        <li>A flanking force may include characters, but cannot include the General.</li>
-                    </ul>
-                    <p>Each player secretly notes which flank (left or right) their flanking force will arrive on. Main forces are deployed first using alternating units, then flanking forces are revealed and deployed in their chosen 18" flank zone.</p>`
+                desc: `<h3>Deployment</h3><p>Winner of roll-off chooses deployment zone and who deploys first. Both players secretly divide army into main force and flanking force (up to 33% points, at least one non-character unit, no General in flanking force). Flanking force secretly assigned to left or right flank. Main forces deployed first, then flanking forces revealed and deployed.</p>`
             },
             {
                 id: 4, book: "Matched Play Guide", name: "Upon the Field of Glory",
@@ -177,7 +174,6 @@
             }
         ];
 
-        // Random Secondaries + Render functions (same as before)
         function getRandomSecondaries(scenName) {
             let options = [];
             if (scenName === "Upon the Field of Glory") options = ["Baggage Trains", "Special Features", "Domination", "Strategic Locations 2", "Strategic Locations 3", "Strategic Locations 4"];
