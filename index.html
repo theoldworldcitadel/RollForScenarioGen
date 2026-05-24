@@ -49,20 +49,6 @@
         .map-container img { max-width: 100%; border: 5px solid #ffd700; border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,0.85); }
         .details h3 { color: #ffd700; border-bottom: 3px solid #b38b2d; padding-bottom: 10px; margin-top: 25px; }
         .objective { background: rgba(179,139,45,0.25); padding: 14px; border-left: 5px solid #ffd700; margin: 15px 0; border-radius: 4px; }
-
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
-            background: #1a140f;
-            border-top: 4px solid #b38b2d;
-            font-size: 0.95em;
-            color: #c8b89a;
-        }
-        .patreon-link {
-            color: #ffd700;
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
@@ -92,11 +78,11 @@
         </div>
     </div>
 
-    <footer>
+    <footer style="text-align:center; padding:30px; margin-top:60px; background:#1a140f; border-top:4px solid #b38b2d; color:#c8b89a;">
         <p><strong>For the full rules of each scenario, please refer to the Warhammer: The Old World Rulebook and Matched Play Guide.</strong></p>
         <p>This app is unofficial and unendorsed by Games Workshop.</p>
         <p>Created by the Warhammer Community Podcast &amp; Old World Tavern Magazine.</p>
-        <p>Support us and get more content on our <a href="https://www.patreon.com/c/TheOldWorldCommunity" target="_blank" class="patreon-link">Patreon</a>!</p>
+        <p>Support us on <a href="https://www.patreon.com/c/TheOldWorldCommunity" target="_blank" style="color:#ffd700;">Patreon</a></p>
     </footer>
 
     <script>
@@ -110,20 +96,88 @@
         };
 
         const scenarios = [
-            { id: 1, book: "Core Rulebook", name: "Pitched Battle", type: "Standard Pitched Battle", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image.jpg", desc: `<h3>Deployment</h3><p>Long table edges. Units at least 12" from centre line (24" separation).</p><h3>Game Length</h3><p>Fixed (6 turns), Variable, or Break Point.</p><h3>Victory Points</h3><p>Standard VP + secondaries.</p>` },
-            { id: 2, book: "Core Rulebook", name: "Break Point", type: "Attrition", map: "break-point.jpg", desc: `<h3>Deployment</h3><p>Closer setup: 18" separation.</p><h3>Special Rules</h3><p>Break Point = 25% of starting Unit Strength.</p><h3>Victory</h3><p>First to break opponent wins.</p>` },
-            { id: 3, book: "Core Rulebook", name: "Flank Attack", type: "Asymmetrical", map: "flank-attack.jpg", desc: `<h3>Deployment</h3><p>Standard with flank zones.</p><h3>Special Rules</h3><p>Flanking units enter as reinforcements.</p>` },
-            { id: 4, book: "Matched Play Guide", name: "Upon the Field of Glory", type: "Classic Pitched", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image.jpg", desc: `<h3>Deployment</h3><p>Long edges, 24" separation. Alternating units.</p><h3>Game Length</h3><p>Fixed Turn Limit, Random Game Length, or Break Point.</p><h3>Special Rules</h3><p>None.</p>` },
-            { id: 5, book: "Matched Play Guide", name: "King of the Hill", type: "Objective Control", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image-1.jpg", desc: `<h3>Deployment</h3><p>Long edges, 20" apart.</p><h3>Central Hill</h3><p>Up to 12x18". Controlled by Core US 10+ unit within 9" of centre (not fleeing, not Stupid).</p><h3>Special Rules</h3><p>No Vanguard moves. 100 VP per turn to controller.</p>` },
-            { id: 6, book: "Matched Play Guide", name: "Drawn Battlelines", type: "Diagonal", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image-2.jpg", desc: `<h3>Deployment</h3><p>Diagonal zones.</p><h3>Special Rules</h3><p>Roll D6 before deployment. On a 1, both players put one Infantry/Cavalry unit + characters in reserve (arrive Turn 2+).</p>` },
-            { id: 7, book: "Matched Play Guide", name: "Close Quarters", type: "Tight Deployment", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image.png", desc: `<h3>Deployment</h3><p>12" from centre line.</p><h3>Special Rules</h3><p>Short edges are impassable terrain (no fleeing or reserves via short edges).</p>` },
-            { id: 8, book: "Matched Play Guide", name: "A Chance Encounter", type: "Quadrant", map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image-1-1.jpg", desc: `<h3>Deployment</h3><p>Diagonally opposite quadrants (A1/A2 or B1/B2).</p><h3>Special Rules</h3><p>Central Special Feature mandatory.</p>` },
-            { id: 9, book: "Matched Play Guide", name: "Encirclement", type: "Modified Pitched", map: "encirclement.jpg", desc: `<h3>Deployment</h3><p>Cannot deploy within 12" of your left flank.</p>` },
-            { id: 10, book: "Core Rulebook", name: "Meeting Engagement", type: "Rapid Deployment", map: "meeting-engagement.jpg", desc: `<h3>Deployment</h3><p>Closer angled zones.</p>` },
-            { id: 11, book: "Core Rulebook", name: "Mountain Pass", type: "Narrative", map: "mountain-pass.jpg", desc: `<h3>Deployment</h3><p>Terrain restricted central pass.</p>` },
-            { id: 12, book: "Core Rulebook", name: "Command and Control (Lonely Tower)", type: "Objective", map: "command-and-control.jpg", desc: `<h3>Deployment</h3><p>Standard with central tower focus.</p>` }
+            {
+                id: 1, book: "Core Rulebook", name: "Pitched Battle",
+                type: "Standard Pitched Battle",
+                map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image.jpg",
+                desc: `<h3>Deployment</h3><p>Long table edges. Units at least 12" from centre line (24" separation).</p><h3>Game Length</h3><p>Fixed (6 turns), Variable, or Break Point.</p><h3>Victory Points</h3><p>Standard VP + secondaries.</p>`
+            },
+            {
+                id: 2, book: "Core Rulebook", name: "Break Point",
+                type: "Attrition",
+                map: "break-point.jpg",
+                desc: `<h3>Deployment</h3><p>Closer setup: 18" separation.</p><h3>Special Rules</h3><p>Break Point = 25% of starting Unit Strength.</p><h3>Victory</h3><p>First to break opponent wins.</p>`
+            },
+            {
+                id: 3, book: "Core Rulebook", name: "Flank Attack",
+                type: "Asymmetrical",
+                map: "flank-attack.jpg",
+                desc: `<h3>Deployment</h3>
+                    <p>Once the battlefield has been set up, the winner of a roll-off chooses which player will deploy the first unit. The winner of this roll-off must also choose their deployment zone (A or B), as shown on the map.</p>
+                    <p>Prior to deployment, both players secretly divide their armies into two forces – the main force and the flanking force:</p>
+                    <ul>
+                        <li>A flanking force must contain at least one non-character unit and can be worth up to 33% of the total points value of the army.</li>
+                        <li>A flanking force may include characters, but cannot include the General.</li>
+                    </ul>
+                    <p>Each player secretly notes which flank (left or right) their flanking force will arrive on. Main forces are deployed first using alternating units, then flanking forces are revealed and deployed in their chosen 18" flank zone.</p>`
+            },
+            {
+                id: 4, book: "Matched Play Guide", name: "Upon the Field of Glory",
+                type: "Classic Pitched",
+                map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image.jpg",
+                desc: `<h3>Deployment</h3><p>Long edges, 24" separation. Alternating units.</p><h3>Game Length</h3><p>Fixed Turn Limit, Random Game Length, or Break Point.</p><h3>Special Rules</h3><p>None.</p>`
+            },
+            {
+                id: 5, book: "Matched Play Guide", name: "King of the Hill",
+                type: "Objective Control",
+                map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image-1.jpg",
+                desc: `<h3>Deployment</h3><p>Long edges, 20" apart.</p><h3>Central Hill</h3><p>Up to 12x18". Controlled by Core US 10+ unit within 9" of centre (not fleeing, not Stupid).</p><h3>Special Rules</h3><p>No Vanguard moves. 100 VP per turn to controller.</p>`
+            },
+            {
+                id: 6, book: "Matched Play Guide", name: "Drawn Battlelines",
+                type: "Diagonal",
+                map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image-2.jpg",
+                desc: `<h3>Deployment</h3><p>Diagonal zones.</p><h3>Special Rules</h3><p>Roll D6 before deployment. On a 1, both players put one Infantry/Cavalry unit + characters in reserve (arrive Turn 2+).</p>`
+            },
+            {
+                id: 7, book: "Matched Play Guide", name: "Close Quarters",
+                type: "Tight Deployment",
+                map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image.png",
+                desc: `<h3>Deployment</h3><p>12" from centre line.</p><h3>Special Rules</h3><p>Short edges are impassable terrain (no fleeing or reserves via short edges).</p>`
+            },
+            {
+                id: 8, book: "Matched Play Guide", name: "A Chance Encounter",
+                type: "Quadrant",
+                map: "https://theoldwarrior.com/wp-content/uploads/2025/06/image-1-1.jpg",
+                desc: `<h3>Deployment</h3><p>Diagonally opposite quadrants (A1/A2 or B1/B2).</p><h3>Special Rules</h3><p>Central Special Feature mandatory.</p>`
+            },
+            {
+                id: 9, book: "Matched Play Guide", name: "Encirclement",
+                type: "Modified Pitched",
+                map: "encirclement.jpg",
+                desc: `<h3>Deployment</h3><p>Cannot deploy within 12" of your left flank.</p>`
+            },
+            {
+                id: 10, book: "Core Rulebook", name: "Meeting Engagement",
+                type: "Rapid Deployment",
+                map: "meeting-engagement.jpg",
+                desc: `<h3>Deployment</h3><p>Closer angled zones.</p>`
+            },
+            {
+                id: 11, book: "Core Rulebook", name: "Mountain Pass",
+                type: "Narrative",
+                map: "mountain-pass.jpg",
+                desc: `<h3>Deployment</h3><p>Terrain restricted central pass.</p>`
+            },
+            {
+                id: 12, book: "Core Rulebook", name: "Command and Control (Lonely Tower)",
+                type: "Objective",
+                map: "command-and-control.jpg",
+                desc: `<h3>Deployment</h3><p>Standard with central tower focus.</p>`
+            }
         ];
 
+        // Random Secondaries + Render functions (same as before)
         function getRandomSecondaries(scenName) {
             let options = [];
             if (scenName === "Upon the Field of Glory") options = ["Baggage Trains", "Special Features", "Domination", "Strategic Locations 2", "Strategic Locations 3", "Strategic Locations 4"];
@@ -148,9 +202,8 @@
                 const secondaries = getRandomSecondaries(scen.name);
                 content += `<h3>🎲 Generated Secondary Objectives</h3>`;
                 secondaries.forEach(obj => {
-                    content += `<div class="objective"><strong>${secondaryPool[obj] || obj}</strong></div>`;
+                    content += `<div class="objective"><strong>${obj}</strong></div>`;
                 });
-                content += `<p><small>These objectives are randomly selected per the official Matched Play Guide.</small></p>`;
             }
 
             document.getElementById('detail-content').innerHTML = content;
