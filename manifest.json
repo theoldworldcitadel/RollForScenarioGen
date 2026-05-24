@@ -2,10 +2,11 @@
   "name": "Old World Scenarios",
   "short_name": "Old World",
   "description": "Warhammer: The Old World Scenario Compendium",
-  "start_url": "/index.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#1a140f",
   "theme_color": "#3c2f1e",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "icon-192.png",

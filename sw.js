@@ -1,5 +1,6 @@
-// Service Worker for Old World Scenarios PWA
-const CACHE_NAME = 'old-world-scenarios-v1';
+// Old World Scenarios - Service Worker
+const CACHE_NAME = 'old-world-scenarios-v2';
+
 const urlsToCache = [
   'index.html',
   'manifest.json'
