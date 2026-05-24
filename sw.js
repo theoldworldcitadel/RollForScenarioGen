@@ -1,22 +1,21 @@
-{
-  "name": "Roll For Scenario",
-  "short_name": "Roll For Scenario",
-  "description": "Warhammer: The Old World Scenario Generator",
-  "start_url": "index.html",
-  "display": "standalone",
-  "background_color": "#1a140f",
-  "theme_color": "#3c2f1e",
-  "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ]
-}
+// Old World Scenarios - Service Worker
+const CACHE_NAME = 'old-world-scenarios-v2';
+
+const urlsToCache = [
+  'index.html',
+  'manifest.json'
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urlsToCache))
+  );
+});
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => response || fetch(event.request))
+  );
+});
