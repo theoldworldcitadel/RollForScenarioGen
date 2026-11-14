@@ -1,5 +1,5 @@
 // Old World Scenarios - Service Worker
-const CACHE_NAME = 'old-world-scenarios-v2';
+const CACHE_NAME = 'old-world-scenarios-v3';
 
 const urlsToCache = [
   'index.html',
